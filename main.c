@@ -3,10 +3,7 @@
 #include <string.h>
 
 /** Constants **/
-const char DETECT_BASE_URL[300] = "";
-const char TRANSLATE_BASE_URL[300] = "";
-const char RAPID_API_KEY[300] = "";
-const char RAPID_API_HOST[300] = "";
+const char *RAPID_API_KEY = "a904e968d6msh632fd279f7ffd92p18a865jsnefe2365c0aed";
 
 /** Prototypes **/
 CURLcode sendRequest(char url[300], char fields[300]);
@@ -67,7 +64,7 @@ CURLcode sendRequest(char url[300], char fields[300])
 
         chunk = curl_slist_append(chunk, "Accept: application/json");
         chunk = curl_slist_append(chunk, "Content-Type: application/x-www-form-urlencoded");
-        chunk = curl_slist_append(chunk, strcat("x-rapidapi-host: ", RAPID_API_HOST));
+        chunk = curl_slist_append(chunk, strcat("x-rapidapi-host: ", "google-translate1.p.rapidapi.com"));
         chunk = curl_slist_append(chunk, strcat("x-rapidapi-key: ", RAPID_API_KEY));
 
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
@@ -99,7 +96,7 @@ void detect(char text[600])
     
     sprintf(fields, "{\"text\":\"%s\"}", text);
 
-    CURLcode res = sendRequest(DETECT_BASE_URL, fields);
+    CURLcode res = sendRequest("https://google-translate1.p.rapidapi.com/language/translate/v2/detect", fields);
 
     if (res == CURLE_OK) {
         printf("Successfully detected language of the text.\n");
@@ -114,7 +111,7 @@ void translate(char text[600], char targetLang[2])
     
     sprintf(fields, "{\"text\":\"%s\",\"target\":\"%s\"}", text, targetLang);
 
-    CURLcode res = sendRequest(TRANSLATE_BASE_URL, fields);
+    CURLcode res = sendRequest("https://google-translate1.p.rapidapi.com/language/translate/v2", fields);
 
     if (res == CURLE_OK) {
         printf("Successfully translated the text.\n");
